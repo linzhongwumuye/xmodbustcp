@@ -1,0 +1,36 @@
+{
+  "Logger" : {
+    "RollType" 	     :    "RollingFile",
+    "Dir" 		     :    "./logdir",
+    "File" 		     :    "xopc.log",
+    "Count" 	     :    3,
+    "Size" 		     :    10,
+    "Unit" 		     :    "MB",
+    "Level"		     :    "info",
+    "Compress"       :    1
+  },
+
+  "Db" : {
+    "Path" 			 :    "root:123456@tcp(112.74.60.161)/mysql?charset=utf8",
+    "Listname" 		 :    "test",
+    "Timeout"        :    6,
+    "IdelMax"        :    300,
+    "OpenMax"        :    600
+  },
+
+  "Redis" : {
+    "Network" 			: "tcp",
+    "Address" 			: "127.0.0.1:6379",
+    "ConnTimeOut" 		: 3,
+    "ReadTimeOut" 		: 10,
+    "WriteTimeOut" 		: 3,
+    "ReconnTimes" 		: 3,
+    "ReconnInterval" 	: 1,
+    "ConnPool"          : 10
+  },
+
+  "PID"                 : "./logdir/pid.txt",
+  "Servers" : [{
+    "Addr":     "127.0.0.1:12789"
+  }]
+}

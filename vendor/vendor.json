@@ -1,0 +1,61 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "6X3O3mfvOyiwV2iAb5GjxARs08c=",
+			"path": "github.com/garyburd/redigo/internal",
+			"revision": "569eae59ada904ea8db7a225c2b47165af08735a",
+			"revisionTime": "2018-04-04T16:07:26Z"
+		},
+		{
+			"checksumSHA1": "TRsWhl8gX4p8xoErljH/oyNmY5M=",
+			"path": "github.com/garyburd/redigo/redis",
+			"revision": "569eae59ada904ea8db7a225c2b47165af08735a",
+			"revisionTime": "2018-04-04T16:07:26Z"
+		},
+		{
+			"checksumSHA1": "JgW+/7IxAjIX6qy+RptnkDPMGoc=",
+			"path": "github.com/go-redis/redis",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "Gq7KK0WW5C4L0dlMLyCcDpO2eF8=",
+			"path": "github.com/go-redis/redis/internal",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "GQZsUVg/+6UpQAYpc4luMvMutSI=",
+			"path": "github.com/go-redis/redis/internal/consistenthash",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "GE9tg94JwCzMbBwn3Q2LaFs5Rx0=",
+			"path": "github.com/go-redis/redis/internal/hashtag",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "AtcctlDri3zLh6U5sDnT4NULEtw=",
+			"path": "github.com/go-redis/redis/internal/pool",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "n6+hS4r0iALcWYsp3d2KXT0ZkXk=",
+			"path": "github.com/go-redis/redis/internal/proto",
+			"revision": ""
+		},
+		{
+			"checksumSHA1": "jILKC9jpYTgukGJEdGoCxgffy/8=",
+			"path": "github.com/goburrow/serial",
+			"revision": "5efbe925ecf714f8ba147bf2226f2e7afc7111bc",
+			"revisionTime": "2017-10-03T20:18:52Z"
+		},
+		{
+			"checksumSHA1": "Ak84hED/H65wvNUoXYwaBHUPqlw=",
+			"path": "github.com/mbserver",
+			"revision": "993e1772cc62aabcd5a5b9f7b58b03dd091a86c0",
+			"revisionTime": "2017-06-11T18:27:39Z"
+		}
+	],
+	"rootPath": "xmodbustcp"
+}
