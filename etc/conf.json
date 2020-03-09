@@ -6,7 +6,7 @@
     "Count" 	     :    3,
     "Size" 		     :    10,
     "Unit" 		     :    "MB",
-    "Level"		     :    "info",
+    "Level"		     :    "error",
     "Compress"       :    1
   },
 
