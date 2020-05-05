@@ -86,7 +86,7 @@ func (s *Server) handler() {
 	for {
 		request, ok := <-s.requestChan
 		if !ok {
-			log.Debug("管道已经关闭")
+			log.Debug("Request Chan Had Been Closed")
 			break
 		}
 		response := s.handle(request)
@@ -105,10 +105,10 @@ func (s *Server) accept(listen net.Listener) error {
 					return nil
 				}
 
-				log.Errorf("不能accept: %#v\n", err)
+				log.Errorf("Can't Accept: %#v\n", err)
 				return err
 			}
-			log.Info("客户端 %v", conn.RemoteAddr(), " 连接了")
+			log.Info("Client %v", conn.RemoteAddr(), " Has Connected")
 
 			go s.readandresponse(conn)
 	}
@@ -124,16 +124,16 @@ func (s *Server) readandresponse(conn net.Conn) {
 	for {
 
 		if deadline := conn.SetDeadline(time.Now().Add(2 * time.Minute)); deadline != nil {
-			log.Error("连接超时设置错误", deadline)
+			log.Error("Conn Timeout Error", deadline)
 			return
 		}
 
 		bytesRead, err := conn.Read(packet)
 		if err != nil {
 			if err == io.EOF {
-				log.Error("客户端与服务器断开连接 \n", err, "Addr", conn.RemoteAddr())
+				log.Error("Close The Connection \n", err, "Addr", conn.RemoteAddr())
 			} else if e, _ := err.(*net.OpError); e.Timeout() {
-				log.Error("Read超时", err)
+				log.Error("Read TimeOut", err)
 			} else {
 				log.Error("TCPError", err)
 			}
@@ -141,7 +141,7 @@ func (s *Server) readandresponse(conn net.Conn) {
 		}
 
 		if !checkstatus(){
-			log.Info("状态变更，服务退出")
+			log.Info("Status Change,Quit Server")
 			s.Close()
 			return
 		}
@@ -149,7 +149,7 @@ func (s *Server) readandresponse(conn net.Conn) {
 		packet = packet[:bytesRead]
 		frame, err := NewTCPFrame(packet)
 		if err != nil {
-			log.Error("Frame错误 %v\n", err)
+			log.Error("Frame Error %v\n", err)
 			return
 		}
 
@@ -160,10 +160,10 @@ func (s *Server) readandresponse(conn net.Conn) {
 
 // 监听ModbusTcp连接
 func (s *Server) ListenTCP(addressPort string) (err error) {
-	log.Info("开始监听：" + addressPort)
-	listen, err := net.Listen("tcp", addressPort)
+	log.Info("Start Listening：" + addressPort)
+	listen, err := net.Listen("Tcp", addressPort)
 	if err != nil {
-		log.Error("监听失败: %v\n", err)
+		log.Error("Listen Fail: %v\n", err)
 		return err
 	}
 
@@ -178,9 +178,8 @@ func StopSvr() {
 	svr_status_mutex.Lock()
 	svr_status = false
 	svr_status_mutex.Unlock()
-	log.Info("收到信号，停止服务")
+	log.Info("Recv Signal，Stop Server")
 }
-
 
 var(
 	svr_status = false

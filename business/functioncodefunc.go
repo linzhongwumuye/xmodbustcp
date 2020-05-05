@@ -12,40 +12,37 @@ import (
 /*
 	此处为对应的一系列函数：
 	需要何种功能码做何种处理时，只需要在Server的函数映射表中进行初始化赋值即可
-	例如新加坡CMI对接华为 只有0X03功能码，就仅实现读取数据的功能
 	保留此方式，当遇到下发控制量等值时可以实现其他函数
 */
 
 //0x03:读寄存器,然后回复相关的值
 func (this *XSvrer) ReadHoldingRegisters(s *modbusserver.Server, frame framer.Framer) ([]byte, *framer.Exception) {
-
 	register, numRegs, endRegister := registerAddressAndNumber(frame)
 	if endRegister > 65535 {
-		log.Error("请求中的寄存器地址最大值错误")
+		log.Error("Request’s Max Register Addr Is Invalid")
 		return nil, &framer.IllegalDataAddress
 	}
 
 	Rids, framer2 := this.getRidsFromRegs(register, numRegs, endRegister)
 	if framer2 != &framer.Success {
-		log.Error("获取RID错误", frame)
+		log.Error("Get RID Error", frame)
 		return []byte{}, framer2
 	}
 
 	values, err := this.datasrc.GetData(Rids)
 	if err != nil {
-		log.Error("获取Data错误", err, Rids, frame.GetData())
+		log.Error("Get Data Error", err, Rids, frame.GetData())
 		return []byte{}, &framer.MemoryParityError
 	}
 
 	convertValues := GJValTOModbus(values)
-	log.Debugf("请求寄存器起始地址: %02x\t 寄存器数量: %02x\t", register, numRegs)
+	log.Debugf("Request Register Start Addr: %02x\t Register Nums: %02x\t", register, numRegs)
 	framer.SetResponseWith0x03(frame, uint16(numRegs), convertValues)
 
 	return frame.GetData(), &framer.Success
 }
 
-//TODO:: 负数、>65536的数 需要协商后进行处理
-// 平台值转换为Modbus数据
+//TODO:: 负数、>65536的数,平台值转换为Modbus数据
 func GJValTOModbus(srcval []string) (dstval []uint16) {
 	for _, val := range srcval {
 		if strings.ContainsAny(val, ".") {
@@ -53,7 +50,7 @@ func GJValTOModbus(srcval []string) (dstval []uint16) {
 		}
 		i, e := strconv.Atoi(val)
 		if e != nil {
-			log.Info("平台值转换过程中出现错误", e, "原始值为：", val)
+			log.Info("Original Value Translating Error", e, "Original Value：", val)
 			i = 0
 		}
 		dstval = append(dstval, uint16(i))
@@ -66,7 +63,6 @@ func (this *XSvrer) getRidsFromRegs(register, numRegs, endRegister int) (Rids []
 	for i := 0; i < numRegs; i++ {
 		Rids = append(Rids, this.mapper[uint16(i+register)])
 	}
-
 	if len(Rids) != endRegister-register {
 		log.Error("len ", len(Rids), "end - start", endRegister-register)
 		return nil, &framer.IllegalDataAddress

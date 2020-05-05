@@ -16,12 +16,22 @@ import (
 
 var (
 	confpath = flag.String("confpath", "./etc/conf.json", "--svrConf=path")
+	APP_NAME = ""
+	APP_Version = ""
+	Build_Data = ""
 )
+
+func Version() {
+	log.Infof("APP_NAME:%-20t%s%t",APP_NAME)
+	log.Infof("APP_Version:%-20t%s%t",APP_Version)
+	log.Infof("Build_Data:%-20t%s%t",Build_Data)
+}
+
 
 func main() {
 	flag.Parse()
-
 	defer func() {
+		Version()
 		if err := recover(); err != nil {
 			log.Fatal(""+
 				"||||||||||||||||||||\n"+
@@ -70,12 +80,12 @@ func main() {
 	signal.Ignore(syscall.SIGPIPE, syscall.SIGALRM)
 	signal.Notify(signalChan, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
-		signalRecieved := <-signalChan
-		log.Info("Recieve signal", signalRecieved.String())
+		signalRecv := <-signalChan
+		log.Info("Recieve signal", signalRecv.String())
 		business.StopXSvrer()
 	}()
 
 	if err := business.StartXSvrer(svrconf); err != nil {
-		log.Error("出现错误，主程序退出", err)
+		log.Error("Program Abort", err)
 	}
 }

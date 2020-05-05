@@ -20,6 +20,6 @@ func SetResponseWith0x03(frame Framer,  number uint16, values []uint16) {
 	data := make([]byte, 1+len(values)*2)
 	data[0] = uint8(number)//0x00 00
 	copy(data[1:], define.Uint16ToBytes(values))
-	log.Debugf("Values: %02x\n 转换后的Data: %02x",values,data)
+	log.Debugf("Values: %02x\n After Translate Data: %02x",values,data)
 	frame.SetData(data)
 }

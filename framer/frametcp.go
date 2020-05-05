@@ -17,7 +17,7 @@ type TCPFrame struct {
 //New
 func NewTCPFrame(bytes []byte) (*TCPFrame,error) {
 	if len(bytes) < 9 {//校验码2 + 标识2 + 长度2 + 设备地址1 + 功能码1  + 寄存器2 + 个数2
-		return nil,fmt.Errorf("报文长度小于9不合格")
+		return nil,fmt.Errorf("Frame Lenth Is Smaller Than 9")
 	}
 
 	tcpFrame := &TCPFrame{
